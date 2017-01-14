@@ -1,0 +1,19 @@
+.Pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    flex-wrap: wrap;
+    background-color: #283D4D;
+}
+
+.Pagination > b {
+    text-decoration: underline;
+    color: #fff;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.Pagination-page-number.Selected {
+    color: #000;
+}
