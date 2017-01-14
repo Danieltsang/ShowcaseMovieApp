@@ -16,8 +16,12 @@ class Reviews extends Component {
         this.hideReviews = this.hideReviews.bind(this);
     }
 
-    loadReviews(e) {
+    preventPropagation(e) {
         e.stopPropagation();
+    }
+
+    loadReviews(e) {
+        this.preventPropagation(e);
 
         if (this.state.reviews.length) {
             this.setState({
@@ -56,7 +60,7 @@ class Reviews extends Component {
                     <div key={review.id} className="Reviews-review-information">
                         <b>Author: {review.author}</b>
                         <p>{review.content.length > 200 ? review.content.substr(0, 200).trim() + '...' : review.content}</p>
-                        <a href={review.url}>Full review</a>
+                        <a onClick={this.preventPropagation} href={review.url}>Full review</a>
                     </div>
                 );
             });

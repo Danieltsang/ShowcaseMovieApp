@@ -12,6 +12,10 @@
     word-wrap: break-word;
 }
 
+.Reviews-review-information > a {
+    color: #FFFFFF;
+}
+
 .textButton {
     text-decoration: underline;
     color: #FFFFFF;

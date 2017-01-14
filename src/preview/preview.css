@@ -13,3 +13,7 @@
     color: #FFFFFF;
     margin-top: 0;
 }
+
+.Preview-detail > p > a {
+    color: #FFFFFF;
+}
