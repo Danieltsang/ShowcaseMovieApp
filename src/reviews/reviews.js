@@ -50,7 +50,7 @@ class Reviews extends Component {
             return <p className="textButton" onClick={this.loadReviews}>Load Reviews</p>;
         }
         let content;
-        if (this.state.reviews && this.state.reviews.length !== 0) {
+        if (this.state.reviews.length !== 0) {
             content = this.state.reviews.map(review => {
                 return (
                     <div key={review.id} className="Reviews-review-information">

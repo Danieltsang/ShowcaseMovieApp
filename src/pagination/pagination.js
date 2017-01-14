@@ -8,6 +8,8 @@ class Pagination extends Component {
         this.state = {
             pageNumberSelected: 1
         };
+
+        this.onClick = this.onClick.bind(this);
     }
 
     onClick(page) {
@@ -18,10 +20,10 @@ class Pagination extends Component {
     render() {
         const numbers = [];
         for (let i = 1; i < this.props.totalPages + 1; i++) {
-            let number = (
+            const number = (
                 <b
                     className={"Pagination-page-number " + (this.state.pageNumberSelected === i ? "Selected" : "")}
-                    onClick={this.onClick.bind(this, i)} key={"page" + i}>
+                    onClick={this.onClick.bind(null, i)} key={"page" + i}>
                     {i}
                 </b>
             );

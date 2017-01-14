@@ -12,7 +12,7 @@ class Preview extends Component {
         } else if (propertiesWithPrefix.indexOf(property) !== -1) {
             value = '$' + value;
         } else if (property === 'homepage') {
-            let sitePath = value;
+            const sitePath = value;
             value = value.length > 30 ? value.substr(0, 30) + "..." : value;
             value = <a onClick={e => e.stopPropagation()} href={sitePath}>{value}</a>;
         }
@@ -22,7 +22,7 @@ class Preview extends Component {
     renderDetails() {
         const usefulData = ['title', 'release_date', 'budget', 'overview', 'homepage', 'revenue', 'tagline'];
         return usefulData.map(property => {
-            let userFriendlyProperty = property.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+            const userFriendlyProperty = property.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
             return (
                 <div key={property} className="Preview-detail">
                     <b>{userFriendlyProperty}</b>
@@ -30,25 +30,6 @@ class Preview extends Component {
                 </div>
             );
         });
-    }
-
-    renderPoster() {
-        if (!this.props.posterImagePath && !this.props.posterSize) {
-            return;
-        }
-        var imagePath = this.props.posterImagePath + this.props.posterSize + this.props.previewDetails.poster_path;
-        var styling = {
-            width: this.props.posterSize.substring(1) + "px",
-            height: "auto",
-            border: "2px solid #fff"
-        };
-        return (
-            <img
-                alt="movie_poster"
-                src={imagePath}
-                style={styling}
-            />
-        );
     }
 
     render() {
@@ -70,8 +51,6 @@ class Preview extends Component {
 Preview.propTypes = {
     isLoading: React.PropTypes.bool,
     onClick: React.PropTypes.func,
-    posterImagePath: React.PropTypes.string,
-    posterSize: React.PropTypes.string,
     previewId: React.PropTypes.number.isRequired,
     previewDetails: React.PropTypes.object.isRequired
 };

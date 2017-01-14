@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
-import _ from 'underscore'; // very useful functional helpers
+import _ from 'underscore'; // Very useful functional helpers
 import Constants from './constants';
-import axios from 'axios';
+import axios from 'axios'; // Chose this HTTP library because I just wanted something quick and simple
 import Preview from './preview/preview';
 import Pagination from './pagination/pagination';
 import SortBar from './sort_bar/sort_bar';
@@ -20,7 +20,7 @@ class App extends Component {
             },
             isPreviewLoading: false,
             areMoviesFetched: false,
-            movies: [], // Debated to use object or array here but used array for easy iteration
+            movies: [], // Debated to use object or array here but opted to use array for easy iteration
                         // Object would provide easier access if I made each key the id of the movie
             moviesAreSorted: false,
             sortBy: "",
@@ -29,27 +29,22 @@ class App extends Component {
 
         this.secureBaseImageUrl = null;
         this.posterSize = null;
-    }
 
-    getMovieData(movies) {
-        return movies.map(movie => {
-            return {
-                id: movie.id,
-                title: movie.title,
-                posterPath: movie.poster_path
-            };
-        });
+        this.unsetPreview = this.unsetPreview.bind(this);
+        this.setPreview = this.setPreview.bind(this);
+        this.sortMovies = this.sortMovies.bind(this);
+        this.retrieveMoviePage = this.retrieveMoviePage.bind(this);
     }
 
     componentWillMount() {
-        // ideally this call for image path and sizes should be cached
+        // Ideally this call for image path and sizes should be cached
         axios.get(`https://api.themoviedb.org/3/configuration`, {
             params: {
                 api_key: Constants.API_KEY
             }
         }).then(res => {
             this.secureBaseImageUrl = res.data.images.secure_base_url;
-            this.posterSize = res.data.images.poster_sizes[1]; // default to 2nd smallest size
+            this.posterSize = res.data.images.poster_sizes[1]; // Default to 2nd smallest size
         });
     }
 
@@ -57,7 +52,19 @@ class App extends Component {
         this.getNowPlaying();
     }
 
-    // Use this to reset data to nowplaying query results
+    getMovieData(movies) {
+        return movies.map(movie => {
+            return {
+                id: movie.id,
+                title: movie.title,
+                posterPath: movie.poster_path ? movie.poster_path : null
+            };
+        });
+    }
+
+    /**
+     * Use this to reset data to nowplaying query results
+     */
     getNowPlaying() {
         this.setState({
             areMoviesFetched: false
@@ -88,11 +95,13 @@ class App extends Component {
         });
     }
 
-    // Not necessarily sorting on the now playing dataset since we must make a discover query to sort movies
-    // Currently assuming the query strings for discover query to match nowplaying query
-    // This leads to inconsistent data since discover queries returns more data than the nowplaying query
+    /**
+     * Not necessarily sorting on the now playing dataset since we must make a discover query to sort movies
+     * Currently assuming the query strings for discover query to match nowplaying query
+     * This leads to inconsistent data since discover queries returns more data than the nowplaying query
+     */
     sortMovies(e) {
-        let sortValue = e.target.value;
+        const sortValue = e.target.value;
         if (sortValue === "NONE") {
             this.getNowPlaying();
             return;
@@ -146,10 +155,14 @@ class App extends Component {
         });
     }
 
+    /**
+     * As per explanation above, once movies are sorted, we must get page numbers
+     * from the discover query and NOT the nowplaying query as they return
+     * different data
+     * @param pageNumber
+     */
     retrieveMoviePage(pageNumber) {
         let request;
-        // as per explanation above, once movies are sorted, we must get page numbers from the discover query
-        // and NOT the nowplaying query as they return different data
         if (!this.state.moviesAreSorted) {
             request = axios.get(`https://api.themoviedb.org/3/movie/now_playing`, {
                 params: {
@@ -182,40 +195,49 @@ class App extends Component {
 
     renderMovies() {
         const titles = this.state.movies.map(movie => {
-            const preview = this.state.currentPreviewId === movie.id ?
-                <Preview
-                    isLoading={this.state.isPreviewLoading}
-                    onClick={this.unsetPreview.bind(this)}
-                    posterImagePath={this.secureBaseImageUrl}
-                    posterSize={this.posterSize}
-                    previewId={this.state.currentPreviewId}
-                    previewDetails={this.state.currentPreviewDetails}
-                /> : null;
             const styling = {
                 width: this.posterSize.substring(1) + "px",
-                height: "auto",
+                height: "239px",
+                backgroundColor: "#283D4D",
                 border: "4px solid #283D4D",
-                margin: "0 2px"
+                margin: "3px"
             };
-            const content = [
-                <img
-                    alt="movie_poster"
-                    key={movie.id}
-                    onClick={this.setPreview.bind(this, movie.id)}
-                    src={this.secureBaseImageUrl + this.posterSize + movie.posterPath}
-                    style={styling}
-                />
-            ];
-            if (preview) {
-                content.push(preview);
+            if (movie.posterPath) {
+                return (
+                    <img
+                        alt="movie_poster"
+                        key={movie.id}
+                        onClick={this.setPreview.bind(null, movie.id)}
+                        src={this.secureBaseImageUrl + this.posterSize + movie.posterPath}
+                        style={styling}
+                    />
+                );
+            } else {
+                return (
+                    <div
+                        style={styling}
+                        key={movie.id}
+                        onClick={this.setPreview.bind(null, movie.id)}>
+                        <b>{movie.title}</b>
+                    </div>
+                );
             }
-            return content;
         });
+        return titles;
+    }
+
+    renderPreview() {
+        if (!this.state.currentPreviewId) {
+            return;
+        }
         return (
-            <div className="App-movie-list-details">
-                <div className="App-movie-list-details-body">
-                    {titles}
-                </div>
+            <div className="App-preview">
+                <Preview
+                    isLoading={this.state.isPreviewLoading}
+                    onClick={this.unsetPreview}
+                    previewId={this.state.currentPreviewId}
+                    previewDetails={this.state.currentPreviewDetails}
+                />
             </div>
         );
     }
@@ -229,6 +251,7 @@ class App extends Component {
         }  else {
             content = <p>Loading...</p>;
         }
+
         return (
             <div className="App">
                 <div className="App-header">
@@ -238,14 +261,15 @@ class App extends Component {
                 <div className="App-body">
                     <SortBar
                         types={Constants.CATEGORIES}
-                        onSelect={this.sortMovies.bind(this)}
+                        onSelect={this.sortMovies}
                         values={Constants.SORT_TYPES}
                     />
                     <div className="App-movie-list">
                         {content}
                     </div>
+                    {this.renderPreview()}
                     <Pagination
-                        onClick={this.retrieveMoviePage.bind(this)}
+                        onClick={this.retrieveMoviePage}
                         totalPages={this.state.totalPages}
                     />
                 </div>

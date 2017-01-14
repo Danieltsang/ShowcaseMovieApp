@@ -28,18 +28,34 @@
     flex-direction: column;
 }
 
-.App-movie-list {
-    flex: 1 1 auto;
+.App-movie-list,
+.App-preview {
     overflow-y: auto;
     overflow-x: hidden;
     padding: 10px 0 0 0;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
 }
 
-.App-movie-list-details-body {
+.App-movie-list {
+    flex: 1 2 auto;
+    min-height: 180px;
 }
 
-.App-movie-list-details-body > p {
+.App-movie-list > p {
     margin: 0;
     padding: 15px 0;
     text-decoration: overline;
+}
+
+.App-movie-list > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.App-preview {
+    background-color: #393939;
+    flex: 1 1 auto;
 }
