@@ -8,12 +8,11 @@
 }
 
 .Pagination > b {
-    text-decoration: underline;
     color: #fff;
     cursor: pointer;
     padding: 0 5px;
 }
 
 .Pagination-page-number.Selected {
-    color: #000;
+    text-decoration: underline;
 }

@@ -14,7 +14,7 @@ class Preview extends Component {
         } else if (property === 'homepage') {
             const sitePath = value;
             value = value.length > 30 ? value.substr(0, 30) + "..." : value;
-            value = <a onClick={e => e.stopPropagation()} href={sitePath}>{value}</a>;
+            value = <a href={sitePath}>{value}</a>;
         }
         return value;
     }
@@ -40,7 +40,8 @@ class Preview extends Component {
             return <p className="loading">Loading</p>;
         }
         return (
-            <div onClick={this.props.onClick} className="Preview">
+            <div className="Preview">
+                <button onClick={this.props.onClose}>X</button>
                 {this.renderDetails()}
                 <Reviews movieId={this.props.previewId}/>
             </div>
@@ -50,13 +51,14 @@ class Preview extends Component {
 
 Preview.propTypes = {
     isLoading: React.PropTypes.bool,
-    onClick: React.PropTypes.func,
+    onClose: React.PropTypes.func,
     previewId: React.PropTypes.number.isRequired,
     previewDetails: React.PropTypes.object.isRequired
 };
 
 Preview.defaultProps = {
-    isLoading: false
+    isLoading: false,
+    onClose: (() => {})
 };
 
 export default Preview;

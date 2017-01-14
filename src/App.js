@@ -199,7 +199,6 @@ class App extends Component {
                 width: this.posterSize.substring(1) + "px",
                 height: "239px",
                 backgroundColor: "#283D4D",
-                border: "4px solid #283D4D",
                 margin: "3px"
             };
             if (movie.posterPath) {
@@ -234,7 +233,7 @@ class App extends Component {
             <div className="App-preview">
                 <Preview
                     isLoading={this.state.isPreviewLoading}
-                    onClick={this.unsetPreview}
+                    onClose={this.unsetPreview}
                     previewId={this.state.currentPreviewId}
                     previewDetails={this.state.currentPreviewDetails}
                 />
