@@ -2,7 +2,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 Please run `npm install` and then `npm start` to view the app locally.
 
-Features to add with more time:
+__Features to add with more time__:
+
 Add error handling for AJAX calls.
 
 Add filtering.
