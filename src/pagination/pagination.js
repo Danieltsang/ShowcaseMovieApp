@@ -12,12 +12,18 @@ class Pagination extends Component {
         this.onClick = this.onClick.bind(this);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.props.sortType !== nextProps.sortType) {
+            this.setState({pageNumberSelected: 1});
+        }
+    }
+
     onClick(page) {
         this.setState({pageNumberSelected: page});
         this.props.onClick(page);
     }
 
-    render() {
+    renderNumbers() {
         const numbers = [];
         for (let i = 1; i < this.props.totalPages + 1; i++) {
             const number = (
@@ -29,9 +35,13 @@ class Pagination extends Component {
             );
             numbers.push(number);
         }
+        return numbers;
+    }
+
+    render() {
         return (
             <div className="Pagination">
-                {numbers}
+                {this.renderNumbers()}
             </div>
         );
     }
@@ -39,6 +49,7 @@ class Pagination extends Component {
 
 Pagination.propTypes = {
     onClick: React.PropTypes.func,
+    sortType: React.PropTypes.string,
     totalPages: React.PropTypes.number
 };
 

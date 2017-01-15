@@ -269,6 +269,7 @@ class App extends Component {
                     {this.renderPreview()}
                     <Pagination
                         onClick={this.retrieveMoviePage}
+                        sortType={this.state.sortBy}
                         totalPages={this.state.totalPages}
                     />
                 </div>

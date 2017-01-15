@@ -28,6 +28,14 @@
     flex-direction: column;
 }
 
+.App-body > .SortBar {
+    flex: 0 0 50px;
+}
+
+.App-body > .Pagination {
+    flex: 0 0 60px;
+}
+
 .App-movie-list,
 .App-preview {
     overflow-y: auto;
