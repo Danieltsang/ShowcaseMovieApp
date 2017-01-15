@@ -199,7 +199,7 @@ class App extends Component {
                 width: this.posterSize.substring(1) + "px",
                 height: "239px",
                 backgroundColor: "#283D4D",
-                margin: "3px"
+                margin: "5px"
             };
             if (movie.posterPath) {
                 return (
@@ -254,8 +254,7 @@ class App extends Component {
         return (
             <div className="App">
                 <div className="App-header">
-                    <h2>NOW PLAYING!</h2>
-                    <h2>By Daniel Tsang</h2>
+                    <h2>NOW PLAYING</h2>
                 </div>
                 <div className="App-body">
                     <SortBar

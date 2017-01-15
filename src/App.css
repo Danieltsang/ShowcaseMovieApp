@@ -2,7 +2,7 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    background-color: #0093ff;
+    background-color: #E6ECF2;
     height: 100vh;
 }
 
@@ -10,12 +10,12 @@
     background-color: #FFFFFF;
     flex: 0 0 auto;
     display: flex;
+    flex-direction: column;
     padding: 0 15px;
 }
 
 .App-header > h2 {
-    padding: 20px 10px 20px 0;
-    margin: 0;
+    margin: 25px 0 0 0;
     color: #0093ff;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .App-body > .Pagination {
-    flex: 0 0 60px;
+    flex: 0 0 50px;
 }
 
 .App-movie-list,
@@ -64,6 +64,6 @@
 }
 
 .App-preview {
-    background-color: #393939;
+    background-color: #959595;
     flex: 1 1 auto;
 }

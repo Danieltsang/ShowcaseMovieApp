@@ -3,11 +3,11 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    background-color: #283D4D;
+    background-color: #dee8f4;
 }
 
 .Pagination > b {
-    color: #fff;
+    color: #000;
     cursor: pointer;
     padding: 0 5px;
 }

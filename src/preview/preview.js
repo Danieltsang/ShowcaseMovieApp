@@ -10,17 +10,19 @@ class Preview extends Component {
         if (!value) {
             value = "Not yet available"
         } else if (propertiesWithPrefix.indexOf(property) !== -1) {
-            value = '$' + value;
+            value = '$' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         } else if (property === 'homepage') {
             const sitePath = value;
             value = value.length > 30 ? value.substr(0, 30) + "..." : value;
             value = <a href={sitePath}>{value}</a>;
+        } else if (property === 'genres' && Array.isArray(value) && value.length) {
+            value = value.map(o => o.name).join(', ');
         }
         return value;
     }
 
     renderDetails() {
-        const usefulData = ['title', 'release_date', 'budget', 'overview', 'homepage', 'revenue', 'tagline'];
+        const usefulData = ['title', 'vote_average', 'vote_count', 'tagline', 'overview', 'revenue', 'release_date', 'budget', 'homepage', 'genres'];
         return usefulData.map(property => {
             const userFriendlyProperty = property.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
             return (
