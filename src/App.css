@@ -48,7 +48,7 @@
 
 .App-movie-list {
     flex: 1 2 auto;
-    min-height: 180px;
+    height: 180px;
 }
 
 .App-movie-list > p {
@@ -66,4 +66,5 @@
 .App-preview {
     background-color: #959595;
     flex: 1 1 auto;
+    height: 250px;
 }
