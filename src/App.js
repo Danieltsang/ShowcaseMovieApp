@@ -7,6 +7,8 @@ import Preview from './preview/preview';
 import Pagination from './pagination/pagination';
 import SortBar from './sort_bar/sort_bar';
 
+let maxPages = 6;
+
 class App extends Component {
     constructor() {
         super();
@@ -24,7 +26,7 @@ class App extends Component {
                         // Object would provide easier access if I made each key the id of the movie
             moviesAreSorted: false,
             sortBy: "",
-            totalPages: 1
+            totalPages: 1 // Change this in the future?
         };
 
         this.secureBaseImageUrl = null;
@@ -78,6 +80,7 @@ class App extends Component {
         }).then(res => {
             // We store max and min date to reuse for the discover query later since now playing is just a
             // customized discover query
+            maxPages = res.data.total_pages < maxPages ? res.data.total_pages : maxPages;
             this.setState({
                 currentPreviewId: 0,
                 currentPreviewDetails: {},
@@ -90,7 +93,7 @@ class App extends Component {
                 movies: this.getMovieData(res.data.results),
                 moviesAreSorted: false,
                 sortBy: "",
-                totalPages: res.data.total_pages
+                totalPages: maxPages
             });
         });
     }
@@ -117,13 +120,14 @@ class App extends Component {
                 'primary_release_date.lte': this.state.filterDetails.maxDate
             }
         }).then(res => {
+            // the now playing query often returns less pages than discover query so cap it
             this.setState({
                 areMoviesFetched: true,
                 currentPreviewId: 0,
                 movies: this.getMovieData(res.data.results),
                 moviesAreSorted: true,
                 sortBy: sortValue,
-                totalPages: res.data.total_pages
+                totalPages: res.data.total_pages > maxPages ? maxPages : res.data.total_pages
             });
         });
     }
